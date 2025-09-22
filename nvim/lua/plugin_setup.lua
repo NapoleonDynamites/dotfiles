@@ -76,6 +76,8 @@ return require('packer').startup(function(use)
     use({ "L3MON4D3/LuaSnip", run = "make install_jsregexp" }) -- snippet engine
     use("saadparwaiz1/cmp_luasnip") -- for autocompletion
     use("rafamadriz/friendly-snippets") -- useful snippets
+
+ use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
  
  use({
     'MeanderingProgrammer/render-markdown.nvim',

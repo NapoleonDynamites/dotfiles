@@ -7,6 +7,7 @@ require("core.options")
 require("plugins.treesitter")
 require("plugins.lualine")
 require("plugins.comment")
+require("plugins.autopairs")
 --lsp stuff
 require("plugins.lspconfig")
 require("plugins.lspsaga")
