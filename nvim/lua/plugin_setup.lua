@@ -96,7 +96,12 @@ use {
     'nvim-tree/nvim-web-devicons', -- optional
   },
 }
-
+  use({
+    "stevearc/conform.nvim",
+    config = function()
+      require("conform").setup()
+    end,
+  })
     if packer_bootstrap then
         require('packer').sync()
     end
