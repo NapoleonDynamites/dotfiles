@@ -31,7 +31,6 @@ keymap.set("n", "<leader>.", "<C-w>l")
 -- nvim-tree
 keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>") -- toggle file explorer
 
-
 -- telescope
 keymap.set("n", "<leader>tf", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>tw", "<cmd>Telescope live_grep<cr>") -- search for word in current working directory

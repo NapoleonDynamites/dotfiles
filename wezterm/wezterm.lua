@@ -106,6 +106,11 @@ config.keys = {
 		mods = "CTRL|SHIFT|ALT",
 		action = act.AdjustPaneSize({ "Right", 1 }),
 	},
+	{
+		key = "Q",
+		mods = "CTRL|SHIFT|ALT",
+		action = act.ToggleFullScreen,
+	},
 }
 
 local mux = wezterm.mux
