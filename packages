@@ -1,0 +1,16 @@
+## Pacman packages
+
+# Main instruments: 
+git
+curl
+wget
+neovim
+
+# shell stuff
+zsh
+# ttf-nerd-fonts-symbols
+
+
+# Desktop Env
+hyprland
+
