@@ -51,6 +51,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias v="nvim"
+alias allmightypush="git push github master && git push gitlab master"
+
 alias zalupa="STM32_Programmer_CLI"
 alias zshupd="exec zsh"
 alias sw="exec ~/openvpn_configs/startvpn"
