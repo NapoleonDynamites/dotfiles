@@ -5,7 +5,18 @@ git
 curl
 wget
 neovim
+firefox
+telegram-desktop
+gcc
+base-devel
+nodejs
+npm
+dhclient
+github-cli
 
+ripgrep
+fd
+wl-clipboard
 # shell stuff
 wezterm
 zsh
@@ -14,4 +25,11 @@ zsh
 
 # Desktop Env
 hyprland
+hyprpaper
+waybar
+fuzzel
+impala
+bluetui
+ttf-nerd-fonts-symbols-common ttf-jetbrains-mono-nerd
+xdg-desktop-portal xdg-desktop-portal-gtk
 

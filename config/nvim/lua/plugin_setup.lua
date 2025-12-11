@@ -31,10 +31,6 @@ return require("packer").startup(function(use)
 
 	-- Dracula theme
 	use("Mofiqul/dracula.nvim")
-	-- Post-install/update hook with neovim command
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	-- Automatically set up your configuration after cloning packer.nvim
-	-- Put this at the end after all plugins
 
 	-- statusline
 	use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons" } })
@@ -64,7 +60,8 @@ return require("packer").startup(function(use)
 	}) -- enhanced lsp uis
 
 	-- fuzzy finding w/ telescope
-	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
+	
+    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
 	use({
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
@@ -99,6 +96,12 @@ return require("packer").startup(function(use)
 			require("conform").setup()
 		end,
 	})
+
+	-- Post-install/update hook with neovim command
+	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+	-- Automatically set up your configuration after cloning packer.nvim
+	-- Put this at the end after all plugins
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end

@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# network
+# Single helper: unblock wifi -> focus impala TUI if present -> otherwise launch impala in terminal
+# Usage: network [pattern]
+# Default pattern: "impala"
+
+set -euo pipefail
+
+# config: change default terminal command here if you want
+# The script will try $OMARCHY_TERMINAL, $TERMINAL, or detect common terminals.
+DEFAULT_TERMINAL_CMD=(kitty -e)
+PATTERN="${1:-impala}"
+
+# Try to unblock wifi (best-effort; ignore errors)
+if command -v rfkill >/dev/null 2>&1; then
+  rfkill unblock wifi 2>/dev/null || true
+fi
+
+# determine terminal command (array)
+_terminal_cmd() {
+  # if user specified env var OMARCHY_TERMINAL (example: "alacritty -e")
+  if [[ -n "${OMARCHY_TERMINAL:-}" ]]; then
+    # split OMARCHY_TERMINAL into array
+    read -r -a arr <<<"$OMARCHY_TERMINAL"
+    echo "${arr[@]}"
+    return
+  fi
+  if [[ -n "${TERMINAL:-}" ]]; then
+    read -r -a arr <<<"$TERMINAL"
+    echo "${arr[@]}"
+    return
+  fi
+
+  # detect available terminal in order
+  for t in kitty alacritty wezterm gnome-terminal alacritty-term xterm; do
+    if command -v "$t" >/dev/null 2>&1; then
+      case "$t" in
+        kitty)  echo "kitty -e"; return ;;
+        alacritty) echo "alacritty -e"; return ;;
+        wezterm) echo "wezterm start --"; return ;;
+        gnome-terminal) echo "gnome-terminal --"; return ;;
+        xterm) echo "xterm -e"; return ;;
+        *) ;;
+      esac
+    fi
+  done
+
+  # fallback
+  echo "${DEFAULT_TERMINAL_CMD[@]}"
+}
+
+# Focus existing TUI by pattern using hyprctl/jq
+focus_existing() {
+  if ! command -v hyprctl >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then
+    return 1
+  fi
+
+  # hyprctl returns JSON list of clients
+  addr=$(hyprctl clients -j 2>/dev/null \
+    | jq -r --arg p "$PATTERN" '.[] |
+        select(
+          ((.class // "") | test($p; "i")) or
+          ((.title // "") | test($p; "i"))
+        ) | .address' \
+    | head -n1)
+
+  if [[ -n "$addr" && "$addr" != "null" ]]; then
+    # focus the window
+    hyprctl dispatch focuswindow "address:$addr" >/dev/null 2>&1 || true
+    return 0
+  fi
+  return 1
+}
+
+# Launch impala in terminal (detached)
+launch_in_terminal() {
+  # build terminal command
+  IFS=' ' read -r -a term_parts <<< "$(_terminal_cmd)"
+  # form complete command: terminal + command to run
+  # some terminals require different args, but most accept "<terminal> -e <cmd...>"
+  # handle wezterm which uses "wezterm start --"
+  case "${term_parts[0]}" in
+    wezterm)
+      setsid "${term_parts[@]}" -- "$@" >/dev/null 2>&1 &
+      ;;
+    gnome-terminal)
+      # gnome-terminal uses -- <command>
+      setsid "${term_parts[@]}" -- "$@" >/dev/null 2>&1 &
+      ;;
+    *)
+      # typical: kitty -e cmd ; alacritty -e cmd ; xterm -e cmd
+      setsid "${term_parts[@]}" "$@" >/dev/null 2>&1 &
+      ;;
+  esac
+  return 0
+}
+
+# Main logic: try focus, otherwise launch
+if focus_existing; then
+  exit 0
+fi
+
+# If focus failed -> launch in terminal
+# prefer launching exact command "impala"
+launch_in_terminal impala
+
+exit 0

@@ -1,0 +1,60 @@
+* {
+  background-color: #1E1E2E;
+  color: #E6E9EF;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  font-family: 'JetBrainsMono Nerd Font';
+  font-size: 16px;
+}
+
+/* Left/Center/Right spacing handled by Waybar automatically */
+.modules-left {
+  margin-left: 1px;
+}
+
+.modules-center {
+  margin: 0 8px;
+}
+/* Clock (center) */
+#clock {
+  font-size: 16px;     /* bigger */
+  padding: 0 6px;      /* optional spacing */
+  font-weight: 500;    /* optional: slightly thicker */
+}
+.modules-right {
+  margin-right: 8px;
+}
+
+#workspaces button {
+  padding: 0 8px;          
+  margin: 0 10px;
+  min-width: 16px;
+  border-radius: 4px;
+  color: #E6E9EF;         /* normal color */
+  background-color: transparent;  /* no background */
+  transition: color 0.2s ease;    /* smooth color change */
+}
+
+/* Active workspace: just change text color */
+#workspaces button.active {
+  color: #a5c0ff;
+}
+
+/* Hover effect: make symbol slightly transparent */
+#workspaces button:hover {
+    background: transparent;  /* no hover background */
+    box-shadow: none;         /* remove default hover highlight */
+}
+
+/* Right modules spacing */
+#cpu, #battery, #pulseaudio, #bluetooth, #network {
+  min-width: 16px;
+  margin: 0 7.5px;
+  font-size: 18px; /* одинаковый размер */}
+
+#bluetooth:hover, #network:hover, #pulseaudio:hover {
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+}
+

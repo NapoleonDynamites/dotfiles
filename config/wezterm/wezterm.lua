@@ -8,6 +8,8 @@ end
 
 config.default_prog = { "/usr/bin/zsh" }
 
+config.enable_wayland = false
+
 local act = wezterm.action
 config.keys = {
 	{
