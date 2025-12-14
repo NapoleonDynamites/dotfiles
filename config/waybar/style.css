@@ -46,7 +46,11 @@
     background: transparent;  /* no hover background */
     box-shadow: none;         /* remove default hover highlight */
 }
-
+#language {
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 /* Right modules spacing */
 #cpu, #battery, #pulseaudio, #bluetooth, #network {
   min-width: 16px;

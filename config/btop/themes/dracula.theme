@@ -1,0 +1,84 @@
+# Theme: dracula
+# Based on WezTerm Dracula palette
+
+# Main background and text
+theme[main_bg]="#282a36"
+theme[main_fg]="#f8f8f2"
+
+# Titles (boxes)
+theme[title]="#f8f8f2"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#bd93f9"
+
+# Selected item in processes box
+theme[selected_bg]="#6272a4"
+theme[selected_fg]="#282a36"
+
+# Inactive/disabled text
+theme[inactive_fg]="#44475a"
+
+# Misc colors for processes (CPU graphs, memory graphs)
+theme[proc_misc]="#ff79c6"
+
+# Boxes outline colors
+theme[cpu_box]="#6272a4"
+theme[mem_box]="#6272a4"
+theme[net_box]="#6272a4"
+theme[proc_box]="#6272a4"
+
+# Box dividers
+theme[div_line]="#6272a4"
+
+# Temperature graph colors
+theme[temp_start]="#50fa7b"
+theme[temp_mid]="#f1fa8c"
+theme[temp_end]="#ff5555"
+
+# CPU graph colors
+theme[cpu_start]="#50fa7b"
+theme[cpu_mid]="#f1fa8c"
+theme[cpu_end]="#ff5555"
+
+# Memory/Disk graphs
+theme[free_start]="#50fa7b"
+theme[free_mid]="#f1fa8c"
+theme[free_end]="#ff5555"
+theme[cached_start]="#50fa7b"
+theme[cached_mid]="#f1fa8c"
+theme[cached_end]="#ff5555"
+theme[available_start]="#50fa7b"
+theme[available_mid]="#f1fa8c"
+theme[available_end]="#ff5555"
+theme[used_start]="#50fa7b"
+theme[used_mid]="#f1fa8c"
+theme[used_end]="#ff5555"
+
+# Network graphs (download/upload)
+theme[download_start]="#50fa7b"
+theme[download_mid]="#f1fa8c"
+theme[download_end]="#ff5555"
+theme[upload_start]="#50fa7b"
+theme[upload_mid]="#f1fa8c"
+theme[upload_end]="#ff5555"
+
+# ANSI colors
+theme[ansi_black]="#21222c"
+theme[ansi_red]="#ff5555"
+theme[ansi_green]="#50fa7b"
+theme[ansi_yellow]="#f1fa8c"
+theme[ansi_blue]="#bd93f9"
+theme[ansi_magenta]="#ff79c6"
+theme[ansi_cyan]="#8be9fd"
+theme[ansi_white]="#f8f8f2"
+
+# Bright variants
+theme[br_black]="#6272a4"
+theme[br_red]="#ff6e6e"
+theme[br_green]="#69ff94"
+theme[br_yellow]="#ffffa5"
+theme[br_blue]="#d6acff"
+theme[br_magenta]="#ff92df"
+theme[br_cyan]="#a4ffff"
+theme[br_white]="#ffffff"
+

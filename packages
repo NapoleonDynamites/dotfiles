@@ -26,10 +26,23 @@ zsh
 # Desktop Env
 hyprland
 hyprpaper
+hypridle
+hyprlock
 waybar
 fuzzel
 impala
 bluetui
 ttf-nerd-fonts-symbols-common ttf-jetbrains-mono-nerd
 xdg-desktop-portal xdg-desktop-portal-gtk
+btop
 
+# Audio
+pipewire
+pipewire-audio
+pipewire-alsa
+pipewire-pulse
+pavucontrol
+wireplumber
+xdg-desktop-portal-hyprland
+grim 
+slurp

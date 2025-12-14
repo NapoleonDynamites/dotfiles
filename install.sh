@@ -100,20 +100,35 @@ CONFIG_DIR="$HOME/.config"
 mkdir -p "$CONFIG_DIR"
 
 rm -rf "$HOME/.zshrc"
+rm -rf "$HOME/.bash_profile"
+
 rm -rf "$CONFIG_DIR/nvim"
 rm -rf "$CONFIG_DIR/wezterm"
 rm -rf "$CONFIG_DIR/catppuccin_mocha.omp.json"
 rm -rf "$CONFIG_DIR/hypr"
 rm -rf "$CONFIG_DIR/waybar"
 rm -rf "$CONFIG_DIR/fuzzel"
+rm -rf "$CONFIG_DIR/btop"
+
+sudo rm -rf "/etc/iwd/main.conf"
 
 ln -s ~/dotfiles/config/.zshrc ~/.zshrc 
+ln -s ~/dotfiles/scripts/.bash_profile ~/.bash_profile 
+
 ln -s ~/dotfiles/config/nvim ~/.config/nvim
 ln -s ~/dotfiles/config/wezterm ~/.config/wezterm
 ln -s ~/dotfiles/config/catppuccin_mocha.omp.json ~/.config/catppuccin_mocha.omp.json 
+
+sudo cp ~/dotfiles/config/iwd/main.conf /etc/iwd/main.conf 
 ln -s ~/dotfiles/config/hypr ~/.config/hypr
 ln -s ~/dotfiles/config/waybar ~/.config/waybar
 ln -s ~/dotfiles/config/fuzzel ~/.config/fuzzel
+ln -s ~/dotfiles/config/btop ~/.config/btop
+
+# Write this to /etc/security/faillock.conf
+# deny = 0
+# unlock_time = 0
+#
 
 echo "All done."
 
