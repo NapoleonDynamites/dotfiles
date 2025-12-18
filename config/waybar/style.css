@@ -52,12 +52,23 @@
     padding-right: 10px;
 }
 /* Right modules spacing */
-#cpu, #battery, #pulseaudio, #bluetooth, #network {
+#cpu, #battery, #bluetooth, #network {
   min-width: 16px;
-  margin: 0 7.5px;
-  font-size: 18px; /* одинаковый размер */}
+  margin: 0 6px;
+  padding-left: 2px;
+  padding-right: 2px;
+  font-size: 16px;
+}
 
-#bluetooth:hover, #network:hover, #pulseaudio:hover {
+#pulseaudio {
+  min-width: 16px;
+  margin: 0 6px;
+  padding-left: 4px;
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+#cpu:hover, #battery:hover, #bluetooth:hover, #network:hover, #pulseaudio:hover {
   background: rgba(255,255,255,0.05);
   border-radius: 4px;
 }

@@ -13,6 +13,7 @@ nodejs
 npm
 dhclient
 github-cli
+minicom 
 
 ripgrep
 fd
@@ -41,7 +42,7 @@ pipewire
 pipewire-audio
 pipewire-alsa
 pipewire-pulse
-pavucontrol
+pulsemixer
 wireplumber
 xdg-desktop-portal-hyprland
 grim 
