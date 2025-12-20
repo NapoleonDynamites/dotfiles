@@ -1,4 +1,4 @@
-#!/usr/bin bash
+#!/bin/bash
 # Script to enable auto-login for a given user on TTY1
 
 set -e

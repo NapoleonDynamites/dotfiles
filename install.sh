@@ -125,6 +125,9 @@ ln -s ~/dotfiles/config/waybar ~/.config/waybar
 ln -s ~/dotfiles/config/fuzzel ~/.config/fuzzel
 ln -s ~/dotfiles/config/btop ~/.config/btop
 
+
+
+
 # Write this to /etc/security/faillock.conf
 # deny = 0
 # unlock_time = 0
