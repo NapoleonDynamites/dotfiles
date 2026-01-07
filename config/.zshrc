@@ -1,29 +1,17 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Path to your Oh My Zsh installation.
-#export ZSH="$HOME/.oh-my-zsh"
-#eval "$(oh-my-posh init zsh --config ~/dotfiles/oh-my-posh.yml)"
 eval "$(oh-my-posh init zsh --config ~/.config/catppuccin_mocha.omp.json)"
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+
 plugins=(git)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 setopt interactive_comments # Fix for zsh-autocomplete
+
 #export PATH=$PATH:/home/iaroslav/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin
 export PATH="$HOME/.local/bin:$PATH"
-#source $ZSH/oh-my-zsh.sh
 
-#source <(fzf --zsh)
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -54,5 +42,4 @@ alias v="nvim"
 
 #alias zalupa="STM32_Programmer_CLI"
 alias zshupd="exec zsh"
-#alias sw="exec ~/openvpn_configs/startvpn"
 

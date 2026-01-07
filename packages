@@ -40,7 +40,7 @@ bluetui
 ttf-nerd-fonts-symbols-common ttf-jetbrains-mono-nerd
 xdg-desktop-portal xdg-desktop-portal-gtk
 btop
-
+hyprshot
 # Audio
 pipewire
 pipewire-audio
