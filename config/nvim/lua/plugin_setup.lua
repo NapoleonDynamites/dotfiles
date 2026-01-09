@@ -96,8 +96,15 @@ return require("packer").startup(function(use)
 			require("conform").setup()
 		end,
 	})
-
-	-- Post-install/update hook with neovim command
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('gitsigns').setup {
+      }
+    end
+  }
+    -- Post-install/update hook with neovim command
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
