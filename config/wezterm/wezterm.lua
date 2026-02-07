@@ -12,7 +12,19 @@ config.enable_wayland = false
 
 local act = wezterm.action
 config.keys = {
-	{
+	    {
+      key = "L",
+      mods = "CTRL",
+      action = wezterm.action.ActivateTabRelative(1),
+    },
+    -- Переключение на предыдущую вкладку
+    {
+      key = "H",
+      mods = "CTRL|SHIFT",
+      action = wezterm.action.ActivateTabRelative(-1),
+    },
+
+    {
 		key = "|",
 		mods = "CTRL|SHIFT",
 		action = act.SplitPane({
@@ -38,81 +50,81 @@ config.keys = {
 		mods = "CTRL|SHIFT",
 		action = act.CloseCurrentTab({ confirm = false }),
 	},
-	{
-		key = "H",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "LeftArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Left"),
-	},
-	{
-		key = "L",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Right"),
-	},
-	{
-		key = "RightArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Right"),
-	},
-	{
-		key = "J",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Down"),
-	},
-	{
-		key = "DownArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Down"),
-	},
-	{
-		key = "K",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Up"),
-	},
-	{
-		key = "UpArrow",
-		mods = "CTRL|SHIFT",
-		action = act.ActivatePaneDirection("Up"),
-	},
-	{
-		key = "{",
-		mods = "CTRL|SHIFT|ALT",
-		action = act.MoveTabRelative(-1),
-	},
-	{
-		key = "}",
-		mods = "CTRL|SHIFT|ALT",
-		action = act.MoveTabRelative(1),
-	},
-	{
-		key = "H",
-		mods = "CTRL|SHIFT|ALT",
-		action = act.AdjustPaneSize({ "Left", 1 }),
-	},
-	{
-		key = "J",
-		mods = "CTRL|SHIFT|ALT",
-		action = act.AdjustPaneSize({ "Down", 1 }),
-	},
-	{
-		key = "K",
-		mods = "CTRL|SHIFT|ALT",
-		action = act.AdjustPaneSize({ "Up", 1 }),
-	},
-	{
-		key = "L",
-		mods = "CTRL|SHIFT|ALT",
-		action = act.AdjustPaneSize({ "Right", 1 }),
-	},
-	{
-		key = "Q",
-		mods = "CTRL|SHIFT|ALT",
-		action = act.ToggleFullScreen,
-	},
+	-- {
+	-- 	key = "H",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Left"),
+	-- },
+	-- {
+	-- 	key = "LeftArrow",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Left"),
+	-- },
+	-- {
+	-- 	key = "L",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Right"),
+	-- },
+	-- {
+	-- 	key = "RightArrow",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Right"),
+	-- },
+	-- {
+	-- 	key = "J",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Down"),
+	-- },
+	-- {
+	-- 	key = "DownArrow",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Down"),
+	-- },
+	-- {
+	-- 	key = "K",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Up"),
+	-- },
+	-- {
+	-- 	key = "UpArrow",
+	-- 	mods = "CTRL|SHIFT",
+	-- 	action = act.ActivatePaneDirection("Up"),
+	-- },
+	-- {
+	-- 	key = "{",
+	-- 	mods = "CTRL|SHIFT|ALT",
+	-- 	action = act.MoveTabRelative(-1),
+	-- },
+	-- {
+	-- 	key = "}",
+	-- 	mods = "CTRL|SHIFT|ALT",
+	-- 	action = act.MoveTabRelative(1),
+	-- },
+	-- {
+	-- 	key = "H",
+	-- 	mods = "CTRL|SHIFT|ALT",
+	-- 	action = act.AdjustPaneSize({ "Left", 1 }),
+	-- },
+	-- {
+	-- 	key = "J",
+	-- 	mods = "CTRL|SHIFT|ALT",
+	-- 	action = act.AdjustPaneSize({ "Down", 1 }),
+	-- },
+	-- {
+	-- 	key = "K",
+	-- 	mods = "CTRL|SHIFT|ALT",
+	-- 	action = act.AdjustPaneSize({ "Up", 1 }),
+	-- },
+	-- {
+	-- 	key = "L",
+	-- 	mods = "CTRL|SHIFT|ALT",
+	-- 	action = act.AdjustPaneSize({ "Right", 1 }),
+	-- },
+	-- {
+	-- 	key = "Q",
+	-- 	mods = "CTRL|SHIFT|ALT",
+	-- 	action = act.ToggleFullScreen,
+	-- },
 }
 
 local mux = wezterm.mux
