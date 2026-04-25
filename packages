@@ -6,6 +6,7 @@ curl
 wget
 neovim
 firefox
+networkmanager
 telegram-desktop
 gcc
 base-devel
@@ -14,20 +15,22 @@ npm
 dhclient
 github-cli
 minicom 
-iwd
 less
 openssh
 
-
+# Work
+openconnect
+# Useful system tools 
 ripgrep
 fd
 wl-clipboard
+btop
+
 # shell stuff
 wezterm
 zsh
-# ttf-nerd-fonts-symbols
-
-
+tree-sitter
+tree-sitter-cli
 # Desktop Env
 hyprland
 hyprpaper
@@ -35,12 +38,11 @@ hypridle
 hyprlock
 waybar
 fuzzel
-impala
 bluetui
 ttf-nerd-fonts-symbols-common ttf-jetbrains-mono-nerd
 xdg-desktop-portal xdg-desktop-portal-gtk
-btop
 hyprshot
+
 # Audio
 pipewire
 pipewire-audio
@@ -48,9 +50,9 @@ pipewire-alsa
 pipewire-pulse
 pulsemixer
 wireplumber
+
+# Somw stuff
 xdg-desktop-portal-hyprland
 grim 
 slurp
-
-virtualbox
 
