@@ -31,6 +31,7 @@ wezterm
 zsh
 tree-sitter
 tree-sitter-cli
+fzf
 # Desktop Env
 hyprland
 hyprpaper
@@ -39,7 +40,7 @@ hyprlock
 waybar
 fuzzel
 bluetui
-ttf-nerd-fonts-symbols-common ttf-jetbrains-mono-nerd
+ttf-nerd-fonts-symbols-common ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols 
 xdg-desktop-portal xdg-desktop-portal-gtk
 hyprshot
 

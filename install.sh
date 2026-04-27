@@ -105,7 +105,7 @@ rm -rf "$CONFIG_DIR/btop"
 rm -rf "$CONFIG_DIR/gazelle"
 
 ln -s ~/dotfiles/config/.zshrc ~/.zshrc 
-ln -s ~/dotfiles/scripts/.bash_profile ~/.bash_profile 
+ln -s ~/dotfiles/config/.bash_profile ~/.bash_profile 
 
 ln -s ~/dotfiles/config/nvim ~/.config/nvim
 ln -s ~/dotfiles/config/wezterm ~/.config/wezterm

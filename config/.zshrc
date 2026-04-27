@@ -1,5 +1,4 @@
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
-
 eval "$(oh-my-posh init zsh --config ~/.config/catppuccin_mocha.omp.json)"
 
 plugins=(git)
