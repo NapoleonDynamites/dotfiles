@@ -20,6 +20,7 @@ openssh
 
 # Work
 openconnect
+wireguad
 # Useful system tools 
 ripgrep
 fd

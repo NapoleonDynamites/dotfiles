@@ -1,7 +1,10 @@
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 eval "$(oh-my-posh init zsh --config ~/.config/catppuccin_mocha.omp.json)"
 
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
 plugins=(git)
+
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
