@@ -7,7 +7,7 @@ opt.tabstop = 4
 opt.shiftwidth = 4
 opt.expandtab = true
 opt.autoindent = true
-
+opt.list = true
 opt.ignorecase = true
 opt.smartcase = true
 
@@ -31,7 +31,9 @@ vim.cmd("set cmdheight=0")
 vim.cmd("set mouse=")
 
 opt.iskeyword:append("-")
-
+vim.cmd([[
+    autocmd FileType bitbake setlocal noexpandtab
+]])
 -- Persistent undo
 if vim.fn.has("persistent_undo") == 1 then
 	local target_path = vim.fn.stdpath("state") .. "/undo"
@@ -43,3 +45,4 @@ if vim.fn.has("persistent_undo") == 1 then
 	vim.opt.undodir = target_path
 	vim.opt.undofile = true
 end
+

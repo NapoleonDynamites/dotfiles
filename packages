@@ -17,15 +17,16 @@ github-cli
 minicom 
 less
 openssh
-
+python-pipx
 # Work
 openconnect
-wireguad
+# wireguad
 # Useful system tools 
 ripgrep
 fd
 wl-clipboard
 btop
+#
 
 # shell stuff
 wezterm

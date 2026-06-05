@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+export PATH="$HOME/.local/bin:$HOME/.local/bin/screensaver:$PATH"
+
+TEXT_FILE="$HOME/.config/screensaver/default.txt"
+
+cleanup() {
+  hyprctl keyword cursor:invisible false >/dev/null 2>&1
+  exit 0
+}
+
+trap cleanup SIGINT SIGTERM SIGHUP SIGQUIT EXIT
+
+hyprctl keyword cursor:invisible true >/dev/null 2>&1
+
+while true; do
+  clear
+
+  tte \
+    --input-file "$TEXT_FILE" \
+    --random-effect \
+    --frame-rate 60 \
+    --canvas-width 0 \
+    --canvas-height 0 \
+    --anchor-canvas c \
+    --anchor-text c
+
+  sleep 0.2
+done

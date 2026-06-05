@@ -9,14 +9,14 @@ local keymap = vim.keymap -- for conciseness
 local opts = { noremap = true, silent = true }
 
 -- Disiable arrow keys
-keymap.set({ "n", "i", "v" }, "<Up>", "<Nop>", opts)
-keymap.set({ "n", "i", "v" }, "<Down>", "<Nop>", opts)
-keymap.set({ "n", "i", "v" }, "<Left>", "<Nop>", opts)
-keymap.set({ "n", "i", "v" }, "<Right>", "<Nop>", opts)
-keymap.set({ "n", "i", "v" }, "<S-Up>", "<Nop>", opts)
-keymap.set({ "n", "i", "v" }, "<S-Down>", "<Nop>", opts)
-keymap.set({ "n", "i", "v" }, "<S-Left>", "<Nop>", opts)
-keymap.set({ "n", "i", "v" }, "<S-Right>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<Up>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<Down>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<Left>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<Right>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<S-Up>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<S-Down>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<S-Left>", "<Nop>", opts)
+-- keymap.set({ "n", "i", "v" }, "<S-Right>", "<Nop>", opts)
 
 -- Move lines up/down
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")

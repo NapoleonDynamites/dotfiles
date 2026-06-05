@@ -103,6 +103,8 @@ rm -rf "$CONFIG_DIR/waybar"
 rm -rf "$CONFIG_DIR/fuzzel"
 rm -rf "$CONFIG_DIR/btop"
 rm -rf "$CONFIG_DIR/gazelle"
+rm -rf "$CONFIG_DIR/screensaver"
+
 
 ln -s ~/dotfiles/config/.zshrc ~/.zshrc 
 ln -s ~/dotfiles/config/.bash_profile ~/.bash_profile 
@@ -119,6 +121,19 @@ ln -s ~/dotfiles/config/gazelle ~/.config/gazelle
 # Write this to /etc/security/faillock.conf
 # deny = 0
 # unlock_time = 0
+
+# Screensaver animation tool
+rm -rf "$HOME/.local/bin/launch-screensaver"
+rm -rf "$HOME/.local/bin/effect-render"
+rm -rf "$HOME/.local/bin/exit-screensaver"
+
+pipx install terminaltexteffects
+ln -s ~/dotfiles/config/screensaver ~/.config/screensaver
+ln -s ~/dotfiles/bin/screensaver/launch-screensaver ~/.local/bin/launch-screensaver
+ln -s ~/dotfiles/bin/screensaver/effect-render ~/.local/bin/effect-render
+ln -s ~/dotfiles/bin/screensaver/exit-screensaver ~/.local/bin/exit-screensaver
+
+chmod +x ~/.local/bin/effect-render ~/.local/bin/launch-screensaver ~/.local/bin/exit-screensaver
 
 echo "All done, modify /etc/security/faillock.conf" 
 echo "And launch ./enable-autologin.sh"

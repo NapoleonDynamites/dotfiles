@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+export PATH="$HOME/.local/bin:$HOME/.local/bin/screensaver:$PATH"
+command -v tte >/dev/null || exit 1
+command -v wezterm >/dev/null || exit 1
+command -v jq >/dev/null || exit 1
+
+pgrep -f "class Screensaver" >/dev/null && exit 0
+
+focused=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true).name')
+
+hyprctl dispatch submap screensaver
+
+for m in $(hyprctl monitors -j | jq -r '.[] | .name'); do
+  hyprctl dispatch focusmonitor "$m"
+  hyprctl dispatch exec "wezterm --config enable_tab_bar=false \
+                                 start --always-new-process \
+                                 --class Screensaver \
+                                 -- ~/.local/bin/effect-render"
+done
+
+hyprctl dispatch focusmonitor "$focused"
