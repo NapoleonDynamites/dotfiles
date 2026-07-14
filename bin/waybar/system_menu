@@ -1,0 +1,176 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+terminal="${TERMINAL:-wezterm}"
+rofi_theme="$HOME/.config/rofi/system_menu.rasi"
+actions_file="$HOME/.config/system_menu/actions.tsv"
+
+if [ ! -f "$rofi_theme" ] && [ -f "$HOME/dotfiles/config/rofi/system_menu.rasi" ]; then
+    rofi_theme="$HOME/dotfiles/config/rofi/system_menu.rasi"
+fi
+
+if [ ! -f "$actions_file" ] && [ -f "$HOME/dotfiles/config/system_menu/actions.tsv" ]; then
+    actions_file="$HOME/dotfiles/config/system_menu/actions.tsv"
+fi
+
+has() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+labels_for_parent() {
+    local wanted_parent="$1"
+    local id parent label icon mode command require confirm
+
+    while IFS=$'\t' read -r id parent label icon mode command require confirm; do
+        [[ -z "${id:-}" || "$id" == \#* ]] && continue
+        [[ "$parent" != "$wanted_parent" ]] && continue
+        [[ -n "${require:-}" ]] && ! has "$require" && continue
+        printf ' %s %s' "$id" "$label"
+    done < "$actions_file"
+}
+
+launch_menu() {
+    if has rofi; then
+        exec rofi -show system_menu -modes "system_menu:$0" -theme "$rofi_theme"
+    fi
+
+    exec fuzzel --list-executables-in-path
+}
+
+print_header() {
+    local parent="${1:-root}"
+    local prompt="system"
+
+    if [ "$parent" != "root" ]; then
+        prompt="$parent"
+    fi
+
+    printf '\0prompt\x1f%s\n' "$prompt"
+    printf '\0markup-rows\x1ftrue\n'
+    printf '\0no-custom\x1ftrue\n'
+    printf '\0data\x1f%s\n' "$parent"
+}
+
+confirm_action() {
+    local action="$1"
+    local answer
+
+    answer="$(printf 'No\nYes\n' | rofi -dmenu -i -p "$action?" -theme "$rofi_theme" || true)"
+    [ "$answer" = "Yes" ]
+}
+
+list_actions() {
+    local parent_filter="${1:-root}"
+    local id parent label icon mode command require confirm
+    local child_meta
+
+    print_header "$parent_filter"
+
+    if [ "$parent_filter" != "root" ]; then
+        printf 'Back\0display\x1f󰁍  Back\x1finfo\x1f__back\x1fmeta\x1fback root\n'
+    fi
+
+    while IFS=$'\t' read -r id parent label icon mode command require confirm; do
+        [[ -z "${id:-}" || "$id" == \#* ]] && continue
+        [[ "$parent" != "$parent_filter" ]] && continue
+        [[ -n "${require:-}" ]] && ! has "$require" && continue
+
+        if [ "$mode" = "menu" ]; then
+            child_meta="$(labels_for_parent "$command")"
+            printf '%s\0display\x1f%s  %s  ›\x1finfo\x1f%s\x1fmeta\x1f%s %s submenu%s\n' \
+                "$label" "$icon" "$label" "$id" "$id" "$label" "$child_meta"
+        else
+            printf '%s\0display\x1f%s  %s\x1finfo\x1f%s\x1fmeta\x1f%s\n' "$label" "$icon" "$label" "$id" "$id $label"
+        fi
+    done < "$actions_file"
+}
+
+run_action() {
+    local selected_id="$1"
+    local id parent label icon mode command require confirm
+
+    if [ "$selected_id" = "__back" ]; then
+        list_actions root
+        exit 0
+    fi
+
+    while IFS=$'\t' read -r id parent label icon mode command require confirm; do
+        [[ -z "${id:-}" || "$id" == \#* ]] && continue
+        [[ "$id" != "$selected_id" ]] && continue
+        [[ -n "${require:-}" ]] && ! has "$require" && exit 0
+
+        if [ "$mode" = "menu" ]; then
+            list_actions "$command"
+            exit 0
+        fi
+
+        [[ "${confirm:-}" == "yes" ]] && ! confirm_action "$label" && exit 0
+
+        case "$mode" in
+            exec)
+                coproc ( bash -lc "$command" >/dev/null 2>&1 )
+                ;;
+            terminal)
+                coproc ( "$terminal" -e bash -lc "$command" >/dev/null 2>&1 )
+                ;;
+            special)
+                case "$command" in
+                    asus_profile_set)
+                        local profile
+                        profile="$(asusctl profile list 2>/dev/null | sed 's/^[*[:space:]]*//' | sed '/^$/d' | rofi -dmenu -i -p "profile" -theme "$rofi_theme" || true)"
+                        [ -n "$profile" ] && coproc ( asusctl profile set "$profile" >/dev/null 2>&1 )
+                        ;;
+                    asus_slash_mode)
+                        local slash_mode
+                        slash_mode="$(asusctl slash --list 2>/dev/null | sed 's/^[*[:space:]]*//' | sed '/^$/d' | rofi -dmenu -i -p "slash mode" -theme "$rofi_theme" || true)"
+                        [ -n "$slash_mode" ] && coproc ( asusctl slash --mode "$slash_mode" >/dev/null 2>&1 )
+                        ;;
+                    asus_slash_brightness)
+                        local brightness
+                        brightness="$(printf '0\n32\n64\n128\n192\n255\n' | rofi -dmenu -i -p "slash brightness" -theme "$rofi_theme" || true)"
+                        [[ "$brightness" =~ ^[0-9]+$ ]] && coproc ( asusctl slash --brightness "$brightness" >/dev/null 2>&1 )
+                        ;;
+                    asus_aura_static)
+                        local colour
+                        colour="$(printf 'bd93f9\nff0000\n00ff00\n0000ff\nffffff\n' | rofi -dmenu -i -p "hex color" -theme "$rofi_theme" || true)"
+                        [[ "$colour" =~ ^[0-9a-fA-F]{6}$ ]] && coproc ( asusctl aura effect static -c "$colour" >/dev/null 2>&1 )
+                        ;;
+                    asus_aura_rainbow)
+                        local speed
+                        speed="$(printf 'low\nmed\nhigh\n' | rofi -dmenu -i -p "rainbow speed" -theme "$rofi_theme" || true)"
+                        [[ "$speed" =~ ^(low|med|high)$ ]] && coproc ( asusctl aura effect rainbow-cycle --speed "$speed" >/dev/null 2>&1 )
+                        ;;
+                    asus_aura_breathe)
+                        local colour colour2 speed
+                        colour="$(printf 'bd93f9\nff0000\n00ff00\n0000ff\nffffff\n' | rofi -dmenu -i -p "first color" -theme "$rofi_theme" || true)"
+                        [[ "$colour" =~ ^[0-9a-fA-F]{6}$ ]] || exit 0
+                        colour2="$(printf '8be9fd\nff79c6\n50fa7b\nf1fa8c\n000000\n' | rofi -dmenu -i -p "second color" -theme "$rofi_theme" || true)"
+                        [[ "$colour2" =~ ^[0-9a-fA-F]{6}$ ]] || exit 0
+                        speed="$(printf 'low\nmed\nhigh\n' | rofi -dmenu -i -p "breathe speed" -theme "$rofi_theme" || true)"
+                        [[ "$speed" =~ ^(low|med|high)$ ]] && coproc ( asusctl aura effect breathe --colour "$colour" --colour2 "$colour2" --speed "$speed" >/dev/null 2>&1 )
+                        ;;
+                    gpu_mode)
+                        local gpu_mode
+                        gpu_mode="$(supergfxctl --supported | tr ' ' '\n' | sed '/^$/d' | rofi -dmenu -i -p "gpu" -theme "$rofi_theme" || true)"
+                        [ -n "$gpu_mode" ] && coproc ( supergfxctl --mode "$gpu_mode" >/dev/null 2>&1 )
+                        ;;
+                esac
+                ;;
+        esac
+
+        exit 0
+    done < "$actions_file"
+}
+
+if [ -z "${ROFI_RETV:-}" ]; then
+    launch_menu
+fi
+
+case "${ROFI_RETV:-0}" in
+    0)
+        list_actions "${ROFI_DATA:-root}"
+        ;;
+    1)
+        run_action "${ROFI_INFO:-}"
+        ;;
+esac

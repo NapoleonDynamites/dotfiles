@@ -8,8 +8,6 @@ pgrep -f "class Screensaver" >/dev/null && exit 0
 
 focused=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true).name')
 
-hyprctl dispatch submap screensaver
-
 for m in $(hyprctl monitors -j | jq -r '.[] | .name'); do
   hyprctl dispatch focusmonitor "$m"
   hyprctl dispatch exec "wezterm --config enable_tab_bar=false \

@@ -1,5 +1,5 @@
 * {
-  background-color: #1E1E2E;
+  background-color: transparent;
   color: #E6E9EF;
   border: none;
   border-radius: 0;
@@ -8,68 +8,104 @@
   font-size: 16px;
 }
 
-/* Left/Center/Right spacing handled by Waybar automatically */
+window#waybar {
+  background: transparent;
+}
+
 .modules-left {
-  margin-left: 1px;
+  margin: 4px 0 0 8px;
 }
 
 .modules-center {
-  margin: 0 8px;
+  margin-top: 4px;
 }
-/* Clock (center) */
-#clock {
-  font-size: 16px;     /* bigger */
-  padding: 0 6px;      /* optional spacing */
-  font-weight: 500;    /* optional: slightly thicker */
-}
+
 .modules-right {
-  margin-right: 8px;
+  margin: 4px 8px 0 0;
+}
+
+#workspaces {
+  padding: 0 6px;
+  border-radius: 8px;
+  background: rgba(30, 30, 46, 0.78);
 }
 
 #workspaces button {
-  padding: 0 8px;          
-  margin: 0 10px;
-  min-width: 16px;
-  border-radius: 4px;
-  color: #E6E9EF;         /* normal color */
-  background-color: transparent;  /* no background */
-  transition: color 0.2s ease;    /* smooth color change */
+  min-width: 18px;
+  padding: 0 7px;
+  margin: 0 2px;
+  border-radius: 6px;
+  color: #E6E9EF;
+  background: transparent;
 }
 
-/* Active workspace: just change text color */
 #workspaces button.active {
   color: #a5c0ff;
 }
 
-/* Hover effect: make symbol slightly transparent */
 #workspaces button:hover {
-    background: transparent;  /* no hover background */
-    box-shadow: none;         /* remove default hover highlight */
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
 }
+
+#clock {
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: rgba(30, 30, 46, 0.78);
+  color: #E6E9EF;
+  font-weight: 500;
+}
+
+#language,
+#battery,
+#pulseaudio,
+#network,
+#custom-system_menu,
+#custom-system-menu {
+  min-height: 24px;
+  padding: 0 8px;
+  background: rgba(30, 30, 46, 0.78);
+  color: #E6E9EF;
+}
+
 #language {
-    border-radius: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-/* Right modules spacing */
-#cpu, #battery, #bluetooth, #network {
-  min-width: 16px;
-  margin: 0 6px;
-  padding-left: 2px;
-  padding-right: 2px;
-  font-size: 16px;
+  border-radius: 8px 0 0 8px;
 }
 
-#pulseaudio {
-  min-width: 16px;
-  margin: 0 6px;
-  padding-left: 4px;
-  padding-right: 10px;
-  font-size: 14px;
+#battery,
+#pulseaudio,
+#network {
+  border-radius: 0;
 }
 
-#cpu:hover, #battery:hover, #bluetooth:hover, #network:hover, #pulseaudio:hover {
-  background: rgba(255,255,255,0.05);
-  border-radius: 4px;
+#custom-system_menu,
+#custom-system-menu {
+  min-width: 28px;
+  min-height: 24px;
+  padding: 0 8px;
+  border-radius: 0 8px 8px 0;
+  background: rgba(30, 30, 46, 0.78);
+  color: #a5c0ff;
+  font-size: 17px;
 }
 
+#battery.warning {
+  color: #f9e2af;
+}
+
+#battery.critical,
+#network.disconnected,
+#pulseaudio.muted {
+  color: #f38ba8;
+}
+
+#battery:hover,
+#language:hover,
+#pulseaudio:hover,
+#network:hover,
+#custom-system_menu:hover,
+#custom-system-menu:hover {
+  background: rgba(49, 50, 68, 0.92);
+  color: #E6E9EF;
+}

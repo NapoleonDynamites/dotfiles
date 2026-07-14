@@ -96,27 +96,39 @@ rm -rf "$HOME/.zshrc"
 rm -rf "$HOME/.bash_profile"
 
 rm -rf "$CONFIG_DIR/nvim"
-rm -rf "$CONFIG_DIR/wezterm"
+# rm -rf "$CONFIG_DIR/wezterm"
+rm -rf "$CONFIG_DIR/alacritty"
+rm -rf "$CONFIG_DIR/zellij"
 rm -rf "$CONFIG_DIR/catppuccin_mocha.omp.json"
 rm -rf "$CONFIG_DIR/hypr"
 rm -rf "$CONFIG_DIR/waybar"
+rm -rf "$CONFIG_DIR/rofi"
+rm -rf "$CONFIG_DIR/system_menu"
 rm -rf "$CONFIG_DIR/fuzzel"
 rm -rf "$CONFIG_DIR/btop"
 rm -rf "$CONFIG_DIR/gazelle"
 rm -rf "$CONFIG_DIR/screensaver"
+rm -rf "$CONFIG_DIR/yazi"
+rm -rf "$CONFIG_DIR/mimeapps.list"
 
 
 ln -s ~/dotfiles/config/.zshrc ~/.zshrc 
 ln -s ~/dotfiles/config/.bash_profile ~/.bash_profile 
 
 ln -s ~/dotfiles/config/nvim ~/.config/nvim
-ln -s ~/dotfiles/config/wezterm ~/.config/wezterm
+# ln -s ~/dotfiles/config/wezterm ~/.config/wezterm
+ln -s ~/dotfiles/config/alacritty ~/.config/alacritty
+ln -s ~/dotfiles/config/zellij ~/.config/zellij
 ln -s ~/dotfiles/config/catppuccin_mocha.omp.json ~/.config/catppuccin_mocha.omp.json 
 ln -s ~/dotfiles/config/hypr ~/.config/hypr
 ln -s ~/dotfiles/config/waybar ~/.config/waybar
+ln -s ~/dotfiles/config/rofi ~/.config/rofi
+ln -s ~/dotfiles/config/system_menu ~/.config/system_menu
 ln -s ~/dotfiles/config/fuzzel ~/.config/fuzzel
 ln -s ~/dotfiles/config/btop ~/.config/btop
 ln -s ~/dotfiles/config/gazelle ~/.config/gazelle
+ln -s ~/dotfiles/config/yazi ~/.config/yazi
+ln -s ~/dotfiles/config/mimeapps.list ~/.config/mimeapps.list
 
 # Write this to /etc/security/faillock.conf
 # deny = 0
@@ -126,15 +138,16 @@ ln -s ~/dotfiles/config/gazelle ~/.config/gazelle
 rm -rf "$HOME/.local/bin/launch-screensaver"
 rm -rf "$HOME/.local/bin/effect-render"
 rm -rf "$HOME/.local/bin/exit-screensaver"
+rm -rf "$HOME/.local/bin/system_menu"
 
 pipx install terminaltexteffects
 ln -s ~/dotfiles/config/screensaver ~/.config/screensaver
 ln -s ~/dotfiles/bin/screensaver/launch-screensaver ~/.local/bin/launch-screensaver
 ln -s ~/dotfiles/bin/screensaver/effect-render ~/.local/bin/effect-render
 ln -s ~/dotfiles/bin/screensaver/exit-screensaver ~/.local/bin/exit-screensaver
+ln -s ~/dotfiles/bin/waybar/system_menu ~/.local/bin/system_menu
 
-chmod +x ~/.local/bin/effect-render ~/.local/bin/launch-screensaver ~/.local/bin/exit-screensaver
+chmod +x ~/.local/bin/effect-render ~/.local/bin/launch-screensaver ~/.local/bin/exit-screensaver ~/.local/bin/system_menu
 
 echo "All done, modify /etc/security/faillock.conf" 
 echo "And launch ./enable-autologin.sh"
-

@@ -4,6 +4,3 @@ pkill -f "/home/iar/.local/bin/effect-render" 2>/dev/null
 pkill -f "wezterm.*Screensaver" 2>/dev/null
 
 hyprctl keyword cursor:invisible false >/dev/null 2>&1
-hyprctl dispatch submap reset >/dev/null 2>&1
-
-pidof hyprlock >/dev/null || hyprlock

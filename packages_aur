@@ -1,5 +1,17 @@
+## AUR packages
+#
+# One package per line. Comments and blank lines are ignored by install.sh.
+
+# Shell prompt / zsh plugins
 oh-my-posh
-zsh-syntax-highlighting 
-zsh-autosuggestions
 zsh-autocomplete
+zsh-autosuggestions
+zsh-syntax-highlighting
+
+# Theme / cursor
+rose-pine-hyprcursor
+
+# TUI / system menu integrations
 gazelle-tui
+asusctl
+supergfxctl

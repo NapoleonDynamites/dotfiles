@@ -1,61 +1,99 @@
 ## Pacman packages
+#
+# One package per line. Comments and blank lines are ignored by install.sh.
 
-# Main instruments: 
-git
-curl
-wget
-neovim
-firefox
-networkmanager
-telegram-desktop
-gcc
+# Base tools
 base-devel
+bash
+coreutils
+curl
+gcc
+git
+grep
+less
+lua
+openssh
+procps-ng
+sed
+wget
+
+# Development
+cmake
+github-cli
+neovim
 nodejs
 npm
-dhclient
-github-cli
-minicom 
-less
-openssh
 python-pipx
-# Work
-openconnect
-# wireguad
-# Useful system tools 
-ripgrep
-fd
-wl-clipboard
-btop
-#
-
-# shell stuff
-wezterm
-zsh
 tree-sitter
 tree-sitter-cli
+
+# CLI utilities
+btop
+fd
 fzf
-# Desktop Env
+minicom
+ripgrep
+wl-clipboard
+zoxide
+
+# Shell / terminal
+alacritty
+keychain
+# wezterm
+zellij
+zsh
+
+# Desktop / Hyprland
 hyprland
 hyprpaper
 hypridle
 hyprlock
+uwsm
 waybar
 fuzzel
-bluetui
-ttf-nerd-fonts-symbols-common ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols 
-xdg-desktop-portal xdg-desktop-portal-gtk
+rofi
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+xdg-desktop-portal-hyprland
+
+# Fonts / cursor support
+ttf-jetbrains-mono-nerd
+ttf-nerd-fonts-symbols
+ttf-nerd-fonts-symbols-common
+
+# Desktop utilities
+brightnessctl
+grim
 hyprshot
+playerctl
+slurp
+
+# Network / remote access
+dhclient
+networkmanager
+openconnect
+
+# Apps
+firefox
+telegram-desktop
+
+# CAD / engineering
+kicad
+
+# File manager / media handling
+7zip
+unarchiver
+vlc
+xdg-utils
+yazi
 
 # Audio
 pipewire
-pipewire-audio
 pipewire-alsa
+pipewire-audio
 pipewire-pulse
 pulsemixer
 wireplumber
 
-# Somw stuff
-xdg-desktop-portal-hyprland
-grim 
-slurp
-
+# TUI apps
+bluetui

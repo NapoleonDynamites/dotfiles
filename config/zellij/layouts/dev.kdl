@@ -1,0 +1,31 @@
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+    }
+
+    tab name="edit" focus=true {
+        pane command="nvim" focus=true {
+            args "."
+        }
+    }
+
+    tab name="shell" split_direction="vertical" {
+        pane name="main"
+        pane name="side" size="35%"
+    }
+
+    tab name="git" split_direction="vertical" {
+        pane command="bash" name="status" size="35%" {
+            args "-lc" "git status --short; exec zsh"
+        }
+        pane name="work"
+    }
+
+    tab name="monitor" split_direction="vertical" {
+        pane command="btop" name="btop" size="60%"
+        pane name="shell"
+    }
+}

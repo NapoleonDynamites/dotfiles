@@ -1,0 +1,105 @@
+default_shell "/usr/bin/zsh"
+default_layout "welcome"
+scroll_buffer_size 10000
+copy_command "wl-copy"
+copy_clipboard "system"
+copy_on_select true
+scrollback_editor "/usr/bin/nvim"
+pane_frames true
+auto_layout true
+mouse_mode false
+session_serialization true
+serialize_pane_viewport false
+show_release_notes false
+on_force_close "detach"
+theme "dracula"
+simplified_ui true
+
+themes {
+    dracula {
+        fg 248 248 242
+        bg 40 42 54
+        black 0 0 0
+        red 255 85 85
+        green 80 250 123
+        yellow 241 250 140
+        blue 98 114 164
+        magenta 255 121 198
+        cyan 139 233 253
+        white 248 248 242
+        orange 255 184 108
+    }
+}
+
+keybinds {
+    locked {
+        bind "Ctrl g" { SwitchToMode "Normal"; }
+    }
+
+    shared_except "locked" {
+        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+
+        bind "Alt n" { NewPane; }
+        bind "Alt v" { NewPane "Right"; }
+        bind "Alt s" { NewPane "Down"; }
+        bind "Alt w" { CloseFocus; }
+        bind "Alt f" { ToggleFocusFullscreen; }
+        bind "Alt Space" { ToggleFloatingPanes; }
+
+        bind "Alt t" { NewTab; }
+        bind "Alt [" { GoToPreviousTab; }
+        bind "Alt ]" { GoToNextTab; }
+        bind "Alt r" { SwitchToMode "RenameTab"; }
+
+        bind "Alt H" { Resize "Increase left"; }
+        bind "Alt L" { Resize "Increase right"; }
+        bind "Alt J" { Resize "Increase down"; }
+        bind "Alt K" { Resize "Increase up"; }
+
+        bind "Alt o" {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+        }
+        bind "Alt O" {
+            LaunchOrFocusPlugin "zellij:layout-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+        }
+
+        bind "Alt d" { Detach; }
+        bind "Alt q" { Quit; }
+        bind "Alt x" { SwitchToMode "Locked"; }
+    }
+
+    renametab {
+        bind "Esc" { UndoRenameTab; SwitchToMode "Normal"; }
+        bind "Enter" { SwitchToMode "Normal"; }
+    }
+}
+
+plugins {
+    tab-bar location="zellij:tab-bar"
+    status-bar location="zellij:status-bar"
+    compact-bar location="zellij:compact-bar"
+    strider location="zellij:strider"
+    session-manager location="zellij:session-manager"
+    welcome-screen location="zellij:session-manager" {
+        welcome_screen true
+    }
+    filepicker location="zellij:strider" {
+        cwd "/"
+    }
+    configuration location="zellij:configuration"
+    plugin-manager location="zellij:plugin-manager"
+    about location="zellij:about"
+}
+
+load_plugins {
+    "zellij:link"
+}

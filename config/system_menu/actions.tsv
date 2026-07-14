@@ -1,0 +1,58 @@
+# id	parent	label	icon	mode	command	require	confirm
+audio	root	Audio	󰕾	menu	audio		
+networking	root	Network	󰤨	menu	networking		
+tools	root	Tools	󰒓	menu	tools		
+power	root	Power	⏻	menu	power		
+asus	root	ASUS	󰾆	menu	asus	asusctl	
+gpu	root	GPU	󰢮	menu	gpu	supergfxctl	
+asus_profile	asus	Profile	󰓅	menu	asus_profile	asusctl	
+asus_battery	asus	Battery	󰁹	menu	asus_battery	asusctl	
+asus_keyboard	asus	Keyboard LEDs	󰌌	menu	asus_keyboard	asusctl	
+asus_aura	asus	Aura colors	󰟡	menu	asus_aura	asusctl	
+asus_slash	asus	Slash lighting	󰹑	menu	asus_slash	asusctl	
+audio_mixer	audio	Audio mixer	󰕾	terminal	pulsemixer		
+system_monitor	tools	System monitor	󰍛	terminal	btop		
+network	networking	Network	󰤨	terminal	if command -v gazelle >/dev/null 2>&1; then gazelle; else nmtui; fi		
+bluetooth	networking	Bluetooth	󰂯	terminal	bluetui		
+layout	tools	Keyboard layout	󰌌	exec	hyprctl switchxkblayout all next		
+screenshot	tools	Screenshot	󰄀	exec	hyprshot -m output --clipboard-only		
+lock	power	Lock	󰌾	exec	hyprlock		
+reload_hyprland	power	Reload Hyprland	󰑓	exec	hyprctl reload		
+reload_waybar	power	Reload Waybar	󰑓	exec	pkill -x waybar 2>/dev/null || true; hyprctl dispatch exec waybar		
+suspend	power	Suspend	󰒲	exec	systemctl suspend		yes
+logout	power	Logout	󰍃	exec	hyprctl dispatch exit		yes
+poweroff	power	Power off	⏻	exec	systemctl poweroff		yes
+reboot	power	Reboot	󰜉	exec	systemctl reboot		yes
+asus_help	asus	ASUS CLI help	󰋖	terminal	asusctl --help	asusctl	
+asus_control	asus	ASUS control center	󰾆	exec	rog-control-center	rog-control-center	
+asus_profile_next	asus_profile	Next profile	󰑓	exec	asusctl profile next	asusctl	
+asus_profile_get	asus_profile	Current profile	󰋼	terminal	asusctl profile get; read -r -p 'Press Enter...'	asusctl	
+asus_profile_set	asus_profile	Set profile	󰓅	special	asus_profile_set	asusctl	
+asus_battery_info	asus_battery	Battery info	󰋼	terminal	asusctl battery info; read -r -p 'Press Enter...'	asusctl	
+asus_battery_60	asus_battery	Limit 60%	󰁾	exec	asusctl battery limit 60	asusctl	
+asus_battery_80	asus_battery	Limit 80%	󰂁	exec	asusctl battery limit 80	asusctl	
+asus_battery_100	asus_battery	Limit 100%	󰁹	exec	asusctl battery limit 100	asusctl	
+asus_battery_oneshot	asus_battery	One-shot full charge	󰂄	exec	asusctl battery oneshot	asusctl	
+asus_keyboard_next	asus_keyboard	Next brightness	󰑓	exec	asusctl leds next	asusctl	
+asus_keyboard_prev	asus_keyboard	Previous brightness	󰒮	exec	asusctl leds prev	asusctl	
+asus_keyboard_off	asus_keyboard	Off	󰌾	exec	asusctl leds set off	asusctl	
+asus_keyboard_low	asus_keyboard	Low	󰌌	exec	asusctl leds set low	asusctl	
+asus_keyboard_med	asus_keyboard	Medium	󰌌	exec	asusctl leds set med	asusctl	
+asus_keyboard_high	asus_keyboard	High	󰌌	exec	asusctl leds set high	asusctl	
+asus_aura_next	asus_aura	Next mode	󰑓	exec	asusctl aura effect --next-mode	asusctl	
+asus_aura_prev	asus_aura	Previous mode	󰒮	exec	asusctl aura effect --prev-mode	asusctl	
+asus_aura_static	asus_aura	Static custom color	󰟡	special	asus_aura_static	asusctl	
+asus_aura_red	asus_aura	Static red	󰝤	exec	asusctl aura effect static -c ff0000	asusctl	
+asus_aura_green	asus_aura	Static green	󰝥	exec	asusctl aura effect static -c 00ff00	asusctl	
+asus_aura_blue	asus_aura	Static blue	󰝦	exec	asusctl aura effect static -c 0000ff	asusctl	
+asus_aura_purple	asus_aura	Static purple	󰝧	exec	asusctl aura effect static -c bd93f9	asusctl	
+asus_aura_white	asus_aura	Static white	󰝤	exec	asusctl aura effect static -c ffffff	asusctl	
+asus_aura_rainbow	asus_aura	Rainbow cycle	󰝤	special	asus_aura_rainbow	asusctl	
+asus_aura_breathe	asus_aura	Breathe custom	󰟡	special	asus_aura_breathe	asusctl	
+asus_slash_enable	asus_slash	Enable	󰐊	exec	asusctl slash --enable	asusctl	
+asus_slash_disable	asus_slash	Disable	󰓛	exec	asusctl slash --disable	asusctl	
+asus_slash_mode	asus_slash	Set mode	󰹑	special	asus_slash_mode	asusctl	
+asus_slash_brightness	asus_slash	Set brightness	󰃠	special	asus_slash_brightness	asusctl	
+asus_slash_list	asus_slash	List modes	󰋼	terminal	asusctl slash --list; read -r -p 'Press Enter...'	asusctl	
+gpu_status	gpu	GPU status	󰋼	terminal	supergfxctl --get; supergfxctl --status; supergfxctl --pend-action; read -r -p 'Press Enter...'	supergfxctl	
+gpu_mode	gpu	Set GPU mode	󰢮	special	gpu_mode	supergfxctl	
