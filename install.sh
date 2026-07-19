@@ -110,6 +110,9 @@ rm -rf "$CONFIG_DIR/gazelle"
 rm -rf "$CONFIG_DIR/screensaver"
 rm -rf "$CONFIG_DIR/yazi"
 rm -rf "$CONFIG_DIR/mimeapps.list"
+if [ -L "$CONFIG_DIR/vpn" ]; then
+    rm "$CONFIG_DIR/vpn"
+fi
 
 
 ln -s ~/dotfiles/config/.zshrc ~/.zshrc 
@@ -129,6 +132,11 @@ ln -s ~/dotfiles/config/btop ~/.config/btop
 ln -s ~/dotfiles/config/gazelle ~/.config/gazelle
 ln -s ~/dotfiles/config/yazi ~/.config/yazi
 ln -s ~/dotfiles/config/mimeapps.list ~/.config/mimeapps.list
+if [ ! -e "$CONFIG_DIR/vpn" ]; then
+    ln -s ~/dotfiles/config/vpn ~/.config/vpn
+else
+    echo "$CONFIG_DIR/vpn already exists — leaving it untouched"
+fi
 
 # Write this to /etc/security/faillock.conf
 # deny = 0
@@ -139,6 +147,7 @@ rm -rf "$HOME/.local/bin/launch-screensaver"
 rm -rf "$HOME/.local/bin/effect-render"
 rm -rf "$HOME/.local/bin/exit-screensaver"
 rm -rf "$HOME/.local/bin/system_menu"
+rm -rf "$HOME/.local/bin/vpn_menu"
 
 pipx install terminaltexteffects
 ln -s ~/dotfiles/config/screensaver ~/.config/screensaver
@@ -146,8 +155,9 @@ ln -s ~/dotfiles/bin/screensaver/launch-screensaver ~/.local/bin/launch-screensa
 ln -s ~/dotfiles/bin/screensaver/effect-render ~/.local/bin/effect-render
 ln -s ~/dotfiles/bin/screensaver/exit-screensaver ~/.local/bin/exit-screensaver
 ln -s ~/dotfiles/bin/waybar/system_menu ~/.local/bin/system_menu
+ln -s ~/dotfiles/bin/waybar/vpn_menu ~/.local/bin/vpn_menu
 
-chmod +x ~/.local/bin/effect-render ~/.local/bin/launch-screensaver ~/.local/bin/exit-screensaver ~/.local/bin/system_menu
+chmod +x ~/.local/bin/effect-render ~/.local/bin/launch-screensaver ~/.local/bin/exit-screensaver ~/.local/bin/system_menu ~/.local/bin/vpn_menu
 
 echo "All done, modify /etc/security/faillock.conf" 
 echo "And launch ./enable-autologin.sh"

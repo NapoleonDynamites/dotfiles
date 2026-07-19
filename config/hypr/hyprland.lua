@@ -6,7 +6,7 @@ local file_manager = "alacritty -e yazi"
 local app_menu = "TERMINAL=wezterm fuzzel --list-executables-in-path"
 local system_menu = "/home/iar/dotfiles/bin/waybar/system_menu"
 local main_mod = "SUPER"
-
+local obsidian = "~/.local/bin/obsidian"
 ------------------
 ---- MONITORS ----
 ------------------
@@ -135,6 +135,7 @@ hl.bind(main_mod .. " + S", hl.dsp.exec_cmd(system_menu))
 hl.bind(main_mod .. " + M", hl.dsp.exec_cmd(file_manager))
 hl.bind(main_mod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(main_mod .. " + P", hl.dsp.exec_cmd("hyprshot -m output --clipboard-only"))
+hl.bind(main_mod .. " + O", hl.dsp.exec_cmd(obsidian))
 
 hl.bind(main_mod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(main_mod .. " + right", hl.dsp.focus({ direction = "right" }))

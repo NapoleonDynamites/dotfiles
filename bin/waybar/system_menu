@@ -154,6 +154,9 @@ run_action() {
                         gpu_mode="$(supergfxctl --supported | tr ' ' '\n' | sed '/^$/d' | rofi -dmenu -i -p "gpu" -theme "$rofi_theme" || true)"
                         [ -n "$gpu_mode" ] && coproc ( supergfxctl --mode "$gpu_mode" >/dev/null 2>&1 )
                         ;;
+                    vpn_menu)
+                        coproc ( "$HOME/dotfiles/bin/waybar/vpn_menu" menu >/dev/null 2>&1 )
+                        ;;
                 esac
                 ;;
         esac

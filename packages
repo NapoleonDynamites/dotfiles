@@ -71,7 +71,9 @@ slurp
 # Network / remote access
 dhclient
 networkmanager
+networkmanager-openconnect
 openconnect
+wireguard-tools
 
 # Apps
 firefox

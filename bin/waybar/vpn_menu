@@ -1,0 +1,359 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+vpn_dir="${VPN_CONFIG_DIR:-$HOME/.config/vpn}"
+openconnect_dir="$vpn_dir/openconnect"
+wireguard_dir="$vpn_dir/wireguard"
+runtime_dir="${VPN_RUNTIME_DIR:-/tmp/vpn-menu-$(id -u)}"
+rofi_theme="$HOME/.config/rofi/system_menu.rasi"
+
+if [ ! -f "$rofi_theme" ] && [ -f "$HOME/dotfiles/config/rofi/system_menu.rasi" ]; then
+    rofi_theme="$HOME/dotfiles/config/rofi/system_menu.rasi"
+fi
+
+mkdir -p "$runtime_dir"
+
+has() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+terminal() {
+    if [ -n "${TERMINAL:-}" ] && has "$TERMINAL"; then
+        printf '%s\n' "$TERMINAL"
+    elif has alacritty; then
+        printf 'alacritty\n'
+    elif has wezterm; then
+        printf 'wezterm\n'
+    else
+        printf 'xterm\n'
+    fi
+}
+
+profile_id() {
+    basename "$1" | sed -E 's/\.(env|conf)$//'
+}
+
+openconnect_pid_file() {
+    printf '%s/openconnect-%s.pid\n' "$runtime_dir" "$1"
+}
+
+load_openconnect_profile() {
+    local file="$1"
+
+    VPN_NAME=
+    VPN_HOST=
+    VPN_USER=
+    VPN_AUTHGROUP=
+    VPN_SERVERCERT=
+    VPN_PASSWORD_FILE=
+    VPN_EXTRA_ARGS=
+
+    # Profile files are local shell-style env files and must be user-owned/trusted.
+    # shellcheck disable=SC1090
+    . "$file"
+}
+
+openconnect_profiles() {
+    find "$openconnect_dir" -maxdepth 1 -type f -name '*.env' ! -name '*.example' 2>/dev/null | sort
+}
+
+wireguard_profiles() {
+    find "$wireguard_dir" -maxdepth 1 -type f -name '*.conf' ! -name '*.example' 2>/dev/null | sort
+}
+
+openconnect_active() {
+    local id="$1" file="$2" pid_file pid
+
+    pid_file="$(openconnect_pid_file "$id")"
+    if [ -f "$pid_file" ]; then
+        pid="$(cat "$pid_file" 2>/dev/null || true)"
+        if [ -n "$pid" ] && ps -p "$pid" -o comm= 2>/dev/null | grep -qx 'openconnect'; then
+            return 0
+        fi
+    fi
+
+    [ -n "$(openconnect_pids "$file")" ]
+}
+
+openconnect_pids() {
+    local file="$1" pid args
+
+    [ -f "$file" ] || return
+    load_openconnect_profile "$file"
+    [ -n "${VPN_HOST:-}" ] || return
+
+    while IFS= read -r pid; do
+        args="$(ps -p "$pid" -o args= 2>/dev/null || true)"
+        case "$args" in
+            *"$VPN_HOST"*) printf '%s\n' "$pid" ;;
+        esac
+    done < <(pgrep -x openconnect 2>/dev/null || true)
+}
+
+wait_openconnect_state() {
+    local id="$1" file="$2" wanted="$3" _
+
+    for _ in {1..20}; do
+        if openconnect_active "$id" "$file"; then
+            [ "$wanted" = "active" ] && return 0
+        else
+            [ "$wanted" = "inactive" ] && return 0
+        fi
+        sleep 0.5
+    done
+
+    return 1
+}
+
+wireguard_active() {
+    local id="$1"
+
+    ip link show "$id" >/dev/null 2>&1
+}
+
+rows() {
+    local file id label state
+
+    while IFS= read -r file; do
+        id="$(profile_id "$file")"
+        load_openconnect_profile "$file"
+        label="${VPN_NAME:-$id}"
+        state="inactive"
+        openconnect_active "$id" "$file" && state="active"
+        printf '%s\topenconnect\t%s\t%s\t%s\n' "$label" "$id" "$state" "$file"
+    done < <(openconnect_profiles)
+
+    while IFS= read -r file; do
+        id="$(profile_id "$file")"
+        label="$id"
+        state="inactive"
+        wireguard_active "$id" && state="active"
+        printf '%s\twireguard\t%s\t%s\t%s\n' "$label" "$id" "$state" "$file"
+    done < <(wireguard_profiles)
+}
+
+active_rows() {
+    rows | awk -F '\t' '$4 == "active"'
+}
+
+status() {
+    local count
+
+    count="$(active_rows | wc -l)"
+    [ "$count" -gt 0 ] || return
+
+    printf '󰖂\n'
+}
+
+active() {
+    [ "$(active_rows | wc -l)" -gt 0 ]
+}
+
+debug() {
+    local active_count file id pids
+
+    printf 'VPN_CONFIG_DIR=%s\n' "$vpn_dir"
+    printf 'VPN_RUNTIME_DIR=%s\n' "$runtime_dir"
+    printf 'OpenConnect profiles:\n'
+    openconnect_profiles | sed 's/^/  /' || true
+    printf 'WireGuard profiles:\n'
+    wireguard_profiles | sed 's/^/  /' || true
+
+    printf 'Rows:\n'
+    rows | sed 's/^/  /' || true
+
+    while IFS= read -r file; do
+        id="$(profile_id "$file")"
+        pids="$(openconnect_pids "$file")"
+        printf 'OpenConnect pids for %s: %s\n' "$id" "${pids:-none}"
+    done < <(openconnect_profiles)
+
+    active_count="$(active_rows | wc -l)"
+    printf 'Active rows: %s\n' "$active_count"
+    printf 'Status: '
+    status || true
+    printf 'active exit: '
+    if active; then
+        printf '0\n'
+    else
+        printf '1\n'
+    fi
+}
+
+connect_openconnect() {
+    local id file pid_file
+
+    id="$1"
+    file="$openconnect_dir/$id.env"
+
+    [ -f "$file" ] || {
+        printf 'OpenConnect profile not found: %s\n' "$file" >&2
+        exit 1
+    }
+
+    load_openconnect_profile "$file"
+
+    : "${VPN_HOST:?VPN_HOST is required}"
+    : "${VPN_USER:?VPN_USER is required}"
+    : "${VPN_PASSWORD_FILE:?VPN_PASSWORD_FILE is required}"
+
+    if [ ! -r "$VPN_PASSWORD_FILE" ]; then
+        printf 'Password file is not readable: %s\n' "$VPN_PASSWORD_FILE" >&2
+        exit 1
+    fi
+
+    pid_file="$(openconnect_pid_file "$id")"
+    sudo -v
+
+    args=(--background --pid-file "$pid_file" --user "$VPN_USER" --passwd-on-stdin)
+    [ -n "${VPN_SERVERCERT:-}" ] && args+=(--servercert "$VPN_SERVERCERT")
+    [ -n "${VPN_AUTHGROUP:-}" ] && args+=(--authgroup "$VPN_AUTHGROUP")
+    if [ -n "${VPN_EXTRA_ARGS:-}" ]; then
+        # shellcheck disable=SC2206
+        args+=($VPN_EXTRA_ARGS)
+    fi
+
+    sudo openconnect "${args[@]}" "$VPN_HOST" < "$VPN_PASSWORD_FILE"
+    wait_openconnect_state "$id" "$file" active
+}
+
+disconnect_openconnect() {
+    local id file pid_file pid
+
+    id="$1"
+    file="$openconnect_dir/$id.env"
+
+    sudo -v
+
+    pid_file="$(openconnect_pid_file "$id")"
+    if [ -f "$pid_file" ]; then
+        pid="$(cat "$pid_file" 2>/dev/null || true)"
+        if [ -n "$pid" ] && ps -p "$pid" -o comm= 2>/dev/null | grep -qx 'openconnect'; then
+            sudo kill "$pid"
+            rm -f "$pid_file"
+            wait_openconnect_state "$id" "$file" inactive
+            return
+        fi
+    fi
+
+    [ -f "$file" ] || exit 0
+    while IFS= read -r pid; do
+        sudo kill "$pid" 2>/dev/null || true
+    done < <(openconnect_pids "$file")
+
+    rm -f "$pid_file"
+    wait_openconnect_state "$id" "$file" inactive
+}
+
+connect_wireguard() {
+    local id file
+
+    id="$1"
+    file="$wireguard_dir/$id.conf"
+
+    [ -f "$file" ] || {
+        printf 'WireGuard profile not found: %s\n' "$file" >&2
+        exit 1
+    }
+
+    sudo -v
+    sudo wg-quick up "$file"
+}
+
+disconnect_wireguard() {
+    local id file
+
+    id="$1"
+    file="$wireguard_dir/$id.conf"
+
+    [ -f "$file" ] || exit 0
+    sudo -v
+    sudo wg-quick down "$file"
+}
+
+run_terminal_action() {
+    local kind="$1" id="$2" action="$3" term
+
+    term="$(terminal)"
+    coproc (
+        "$term" -e bash -lc '
+            set -o pipefail
+            "$1" "$2" "$3" "$4"
+            code="$?"
+            printf "\nVPN command exited with code %s\n" "$code"
+            printf "Press Enter to close..."
+            read -r _
+            exit "$code"
+        ' bash "$0" "$action" "$kind" "$id" >/dev/null 2>&1
+    )
+}
+
+menu() {
+    local data labels selected row label kind id state file action
+
+    data="$(rows)"
+    if [ -z "$data" ]; then
+        printf 'No VPN profiles in ~/.config/vpn/openconnect or ~/.config/vpn/wireguard\n' |
+            rofi -dmenu -i -p "vpn" -theme "$rofi_theme" >/dev/null || true
+        return
+    fi
+
+    labels="$(
+        while IFS=$'\t' read -r label kind id state file; do
+            if [ "$state" = "active" ]; then
+                printf '● %s [%s]\n' "$label" "$kind"
+            else
+                printf '○ %s [%s]\n' "$label" "$kind"
+            fi
+        done <<< "$data"
+    )"
+
+    selected="$(printf '%s\n' "$labels" | rofi -dmenu -i -p "vpn" -theme "$rofi_theme" || true)"
+    [ -n "$selected" ] || return
+
+    while IFS=$'\t' read -r label kind id state file; do
+        if [ "$selected" = "● $label [$kind]" ] || [ "$selected" = "○ $label [$kind]" ]; then
+            if [ "$state" = "active" ]; then
+                action="disconnect"
+            else
+                action="connect"
+            fi
+
+            run_terminal_action "$kind" "$id" "$action"
+            return
+        fi
+    done <<< "$data"
+}
+
+case "${1:-menu}" in
+    status)
+        status
+        ;;
+    active)
+        active
+        ;;
+    debug)
+        debug
+        ;;
+    menu)
+        menu
+        ;;
+    connect)
+        case "${2:-}" in
+            openconnect) connect_openconnect "${3:?profile id required}" ;;
+            wireguard) connect_wireguard "${3:?profile id required}" ;;
+            *) exit 2 ;;
+        esac
+        ;;
+    disconnect)
+        case "${2:-}" in
+            openconnect) disconnect_openconnect "${3:?profile id required}" ;;
+            wireguard) disconnect_wireguard "${3:?profile id required}" ;;
+            *) exit 2 ;;
+        esac
+        ;;
+    *)
+        printf 'usage: %s [status|active|debug|menu|connect|disconnect]\n' "$0" >&2
+        exit 2
+        ;;
+esac

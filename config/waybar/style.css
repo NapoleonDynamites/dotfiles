@@ -58,6 +58,7 @@ window#waybar {
 }
 
 #language,
+#custom-vpn,
 #battery,
 #pulseaudio,
 #network,
@@ -73,6 +74,7 @@ window#waybar {
   border-radius: 8px 0 0 8px;
 }
 
+#custom-vpn,
 #battery,
 #pulseaudio,
 #network {
@@ -102,6 +104,7 @@ window#waybar {
 
 #battery:hover,
 #language:hover,
+#custom-vpn:hover,
 #pulseaudio:hover,
 #network:hover,
 #custom-system_menu:hover,

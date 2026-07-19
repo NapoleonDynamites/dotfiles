@@ -1,0 +1,12 @@
+# Copy to `example.conf`, then replace values.
+# The interface name in the menu is the file name without `.conf`.
+[Interface]
+PrivateKey = CHANGE_ME
+Address = 10.0.0.2/32
+DNS = 1.1.1.1
+
+[Peer]
+PublicKey = CHANGE_ME
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = vpn.example.com:51820
+PersistentKeepalive = 25

@@ -1,3 +1,7 @@
 nvim/plugin/
 .DS_Store
 config/nvim/lazy-lock.json
+config/vpn/openconnect/*.env
+config/vpn/wireguard/*.conf
+!config/vpn/openconnect/*.env.example
+!config/vpn/wireguard/*.conf.example

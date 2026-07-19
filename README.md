@@ -35,6 +35,37 @@ Required packages are listed in `packages` under `File manager / media handling`
 - `unarchiver`
 - `zoxide`
 
+## VPN Workflow
+
+VPN is managed directly through `openconnect` and `wg-quick`, not through NetworkManager.
+
+`Super + S` -> `Network` -> `VPN` opens a profile list:
+
+- `openconnect` profiles are read from `~/.config/vpn/openconnect/*.env`
+- WireGuard profiles are read from `~/.config/vpn/wireguard/*.conf`
+- files ending with `.example` are templates and are ignored
+- active profiles are shown with `●`, inactive profiles with `○`
+- selecting a profile toggles connect/disconnect in a terminal, so `sudo` can ask for a password
+
+The Waybar VPN icon appears only while at least one VPN profile is active.
+
+OpenConnect profile setup:
+
+```sh
+cp ~/.config/vpn/openconnect/example.env.example ~/.config/vpn/openconnect/work.env
+mkdir -p ~/.local/secrets
+printf '%s\n' 'PASSWORD_HERE' > ~/.local/secrets/work-vpn.pass
+chmod 600 ~/.local/secrets/work-vpn.pass
+```
+
+WireGuard profile setup:
+
+```sh
+cp ~/.config/vpn/wireguard/example.conf.example ~/.config/vpn/wireguard/work.conf
+```
+
+Real `*.env` and `*.conf` VPN profiles are ignored by git. Templates stay in dotfiles.
+
 ## Hyprland Keybinds
 
 - `Super + T` — open terminal

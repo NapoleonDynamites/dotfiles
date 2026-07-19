@@ -13,6 +13,7 @@ asus_slash	asus	Slash lighting	󰹑	menu	asus_slash	asusctl
 audio_mixer	audio	Audio mixer	󰕾	terminal	pulsemixer		
 system_monitor	tools	System monitor	󰍛	terminal	btop		
 network	networking	Network	󰤨	terminal	if command -v gazelle >/dev/null 2>&1; then gazelle; else nmtui; fi		
+vpn	networking	VPN	󰖂	special	vpn_menu		
 bluetooth	networking	Bluetooth	󰂯	terminal	bluetui		
 layout	tools	Keyboard layout	󰌌	exec	hyprctl switchxkblayout all next		
 screenshot	tools	Screenshot	󰄀	exec	hyprshot -m output --clipboard-only		

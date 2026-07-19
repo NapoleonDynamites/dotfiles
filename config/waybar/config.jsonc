@@ -7,7 +7,7 @@
 
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
-  "modules-right": ["hyprland/language", "battery", "pulseaudio", "network", "custom/system_menu"],
+  "modules-right": ["hyprland/language", "custom/vpn", "battery", "pulseaudio", "network", "custom/system_menu"],
 
   "hyprland/workspaces": {
     "on-click": "activate",
@@ -31,6 +31,7 @@
     "format": "{}",
     "format-en": "en",
     "format-ru": "ru",
+    "on-click": "hyprctl switchxkblayout all next"
   },
 
   "battery": {
@@ -62,6 +63,15 @@
     "tooltip-format-wifi": "{essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname}",
     "tooltip-format-disconnected": "Disconnected"
+  },
+
+  "custom/vpn": {
+    "exec-if": "/home/iar/dotfiles/bin/waybar/vpn_menu active",
+    "exec": "/home/iar/dotfiles/bin/waybar/vpn_menu status",
+    "interval": 5,
+    "format": "{}",
+    "tooltip": true,
+    "tooltip-format": "VPN active"
   },
 
   "custom/system_menu": {
