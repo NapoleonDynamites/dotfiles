@@ -7,7 +7,7 @@ copy_on_select true
 scrollback_editor "/usr/bin/nvim"
 pane_frames true
 auto_layout true
-mouse_mode false
+mouse_mode true
 session_serialization true
 serialize_pane_viewport false
 show_release_notes false
@@ -75,6 +75,8 @@ keybinds {
         bind "Alt d" { Detach; }
         bind "Alt q" { Quit; }
         bind "Alt x" { SwitchToMode "Locked"; }
+        bind "Alt c" { SwitchToMode "Scroll"; }
+        bind "Alt e" { EditScrollback; }
     }
 
     renametab {

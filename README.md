@@ -101,6 +101,8 @@ Real `*.env` and `*.conf` VPN profiles are ignored by git. Templates stay in dot
 - `Alt d` — detach
 - `Alt q` — quit
 - `Alt x` — locked mode
+- `Alt c` — scroll mode
+- `Alt e` — edit scrollback in nvim
 - `Ctrl g` — exit locked mode
 
 ## Install

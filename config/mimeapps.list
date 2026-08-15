@@ -1,5 +1,8 @@
 [Default Applications]
 application/pdf=firefox.desktop
+text/html=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
 image/avif=firefox.desktop
 image/bmp=firefox.desktop
 image/gif=firefox.desktop
@@ -18,6 +21,9 @@ video/x-msvideo=vlc.desktop
 
 [Added Associations]
 application/pdf=firefox.desktop
+text/html=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
 image/avif=firefox.desktop
 image/bmp=firefox.desktop
 image/gif=firefox.desktop
